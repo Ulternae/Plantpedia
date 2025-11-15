@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env DISABLE_TYPE_CHECKING=true next build",
+    "build": "next build",
     "start": "next start",
     "type-check": "tsc --noEmit",
     "build:schema": "graphql-codegen --config codegen.yml"
