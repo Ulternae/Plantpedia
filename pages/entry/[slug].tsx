@@ -47,9 +47,10 @@ type PlantEntryProps = {
   plant: Plant | null
   otherEntries?: Plant[] | null
   categories?: Category[] | null
+  preview?: boolean
 }
 
-export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params, preview = false }) => {
   const slug = params?.slug
 
   if (typeof slug !== 'string') {
@@ -59,14 +60,14 @@ export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params }
   }
 
   try {
-    const plant = await getPlant(slug)
+    const plant = await getPlant(slug, preview)
     const categories = await getCategoryList()
     const otherEntries = await getPlantList({ limit: 5 })
 
     return {
       props: {
         plant,
-        categories,
+        categories, 
         otherEntries
       },
       revalidate:  5 * 60

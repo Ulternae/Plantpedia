@@ -22,10 +22,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 export default function Home({
   plants,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const lala = process.env.NODE_ENV
-  const lele = process.env.SPACE_ID
 
-  console.log('Environment:', lala , lele)
   return (
     <Layout>
       <Hero {...plants[0]} className="mb-20" />
