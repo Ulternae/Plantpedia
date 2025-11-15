@@ -1,8 +1,9 @@
 import Link from 'next/link'
+import NextImage, { ImageLoaderProps } from 'next/image'
+
 import { Grid, GridProps } from '@ui/Grid'
 import { Typography } from '@ui/Typography'
 import { Button } from '@ui/Button'
-
 import { Excerpt } from '@components/Excerpt'
 
 type PlantCollectionProps = {
@@ -48,13 +49,65 @@ export function PlantEntry({ plant, variant = 'square' }: PlantEntryType) {
     </Grid>
   )
 }
+type AspectRatio = '1:1' | '4:3' | '16:9'
+
+export type ContentfulFit =
+  | 'pad'
+  | 'fill'
+  | 'scale'
+  | 'crop'
+  | 'thumb'
+
+export type ContentfulFocus =
+  | 'center'
+  | 'face'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+
+export type ImageProps = {
+  layout: 'responsive' | 'intrinsic'
+  src: string
+  width: number
+  height?: never
+  aspectRatio: AspectRatio
+  fit?: ContentfulFit
+  f?: ContentfulFocus
+  quality?: number
+}
+
+function Image({ layout, src, width, aspectRatio, fit = "fill", f , quality}: ImageProps) {
+  const height = calcAspectRatioHeight(aspectRatio, width)
+
+  const loader = ({ src, width, quality: loaderQuality }: ImageLoaderProps) => {
+    const h = calcAspectRatioHeight(aspectRatio, width)
+    const finalQuality = quality || loaderQuality
+    return src.concat(`?w=${width}&h=${h}&fit=${fit}${f ? `&f=${f}` : ''}${finalQuality ? `&q=${finalQuality}` : ''}`)
+  }
+
+  return <NextImage layout={layout} src={src} width={width} height={height} loader={loader} />
+}
+
+
+const calcAspectRatioHeight = (aspectRatio: AspectRatio, width: number) => {
+  const aspectRatioParts = aspectRatio.split(':')
+
+  const [w, h] = aspectRatioParts
+  const height = (parseInt(h) * width) / parseInt(w)
+
+  return height
+}
+
 
 export function PlantEntrySquare({ image, plantName, slug }: Plant) {
   return (
     <Link href={`/entry/${slug}`}>
       <a title={`Go to ${plantName}`}>
         <div className="opacity-95 hover:opacity-100">
-          <img src={image.url} width={460} />
+          {/* <img src={image.url.concat("?w=460&h=460&fit=thumb&f=right&fm=webp&q=70")} /> */}
+          <Image layout="responsive" aspectRatio="1:1" src={image.url} width={460} fit="thumb" f="right" quality={70} />
+          {/* <Image  className='object-cover' height={460} layout="responsive" src={image.url} width={460} /> */}
           <div className="p-4">
             <Typography variant="h4" className="break-words">
               {plantName}
