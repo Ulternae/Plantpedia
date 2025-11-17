@@ -17,7 +17,7 @@ export function NavBar({ title, children }: Props) {
       elevation={0}
       className="border-b-2 border-t-2 border-grey-200"
     >
-      <Toolbar>
+      <Toolbar  className='flex justify-between'>
         <PlantpediaNoLoVeniasVenirLogo title={title} />
         {children}
       </Toolbar>
@@ -66,7 +66,7 @@ function PlantpediaNoLoVeniasVenirLogo({ title }: { title: string }) {
   const favicon = faviconsBeios[faviconIndex]
 
   return (
-    <>
+    <div className='flex gap-2 items-center w-full'>
       <Head>
         <link
           rel="icon"
@@ -82,6 +82,6 @@ function PlantpediaNoLoVeniasVenirLogo({ title }: { title: string }) {
           {title}
         </a>
       </Typography>
-    </>
+    </div>
   )
 }

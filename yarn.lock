@@ -1262,6 +1262,13 @@
   "resolved" "https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz"
   "version" "1.1.2"
 
+"@types/cookie@^1.0.0":
+  "integrity" "sha512-mGFXbkDQJ6kAXByHS7QAggRXgols0mAdP4MuXgloGY1tXokvzaFFM4SMqWvf7AH0oafI7zlFJwoGWzmhDqTZ9w=="
+  "resolved" "https://registry.npmjs.org/@types/cookie/-/cookie-1.0.0.tgz"
+  "version" "1.0.0"
+  dependencies:
+    "cookie" "*"
+
 "@types/hoist-non-react-statics@^3.3.1":
   "integrity" "sha512-PQTyIulDkIDro8P+IHbKCsw7U2xxBYflVzW/FgWdCAePD9xGSidgA76/GeJ6lBKoblyhf9pBY763gbrN+1dI8g=="
   "resolved" "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.7.tgz"
@@ -2264,7 +2271,7 @@
   dependencies:
     "safe-buffer" "~5.1.1"
 
-"cookie@^0.4.1":
+"cookie@*", "cookie@^0.4.1":
   "integrity" "sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA=="
   "resolved" "https://registry.npmjs.org/cookie/-/cookie-0.4.1.tgz"
   "version" "0.4.1"
