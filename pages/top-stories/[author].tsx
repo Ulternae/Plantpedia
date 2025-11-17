@@ -67,7 +67,7 @@ export default function TopStories({
   const router = useRouter()
   const currentAuthor = router.query.author
 
-  if (typeof currentAuthor !== "string" || authors.length === 0 || status === 'error' || true) {
+  if (typeof currentAuthor !== "string" || authors.length === 0 || status === 'error') {
     return (
       <ErrorPage message='Huh, algo no está bien 🙇‍♀️' statusCode={500}/>
       // <Layout>

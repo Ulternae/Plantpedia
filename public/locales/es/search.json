@@ -1,0 +1,4 @@
+{
+  "term": "Término de búsqueda",
+  "notFound": "No se encontraron plantas para \"{{term}}\""
+}
