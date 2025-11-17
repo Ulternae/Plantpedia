@@ -27,19 +27,44 @@ import { useRouter } from 'next/dist/client/router'
 //   }
 // }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const plantEntriesFromFS = fs.readFileSync(path.join(process.cwd(), 'paths.txt'), "utf-8").toString()
-  const plantEntriesToGenerate = plantEntriesFromFS.split("\n").filter(Boolean)
+type PathType = {
+  params: {
+    slug: string
+  },
+  locale: string
+}
 
-  const paths = plantEntriesToGenerate.map((plant) => ({
-    params: { slug: plant }
-  }))
+// export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+//   const plantEntriesFromFS = fs.readFileSync(path.join(process.cwd(), 'paths.txt'), "utf-8").toString()
+//   const plantEntriesToGenerate = plantEntriesFromFS.split("\n").filter(Boolean)
+
+
+//   const paths: PathType[] = plantEntriesToGenerate.map((plant) => ({
+//     params: { slug: plant }
+//   }))
+
+//   return {
+//     paths,
+//     // fallback: 'blocking', "false"
+//     fallback: 'blocking',
+
+//   }
+// }
+
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  if (locales == undefined) {
+    throw new Error("Locales is undefined")
+  }
+
+  const plants = await getPlantList({ limit: 10, })
+  const paths: PathType[] = locales.flatMap((locale) =>
+    plants.map((plant) => ({
+      params: { slug: plant.slug }, locale
+    })))
 
   return {
     paths,
-    // fallback: 'blocking', "false"
-    fallback: 'blocking',
-
+    fallback: true,
   }
 }
 
@@ -50,7 +75,7 @@ type PlantEntryProps = {
   preview?: boolean
 }
 
-export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params, preview = false }) => {
+export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params, preview = false, locale }) => {
   const slug = params?.slug
 
   if (typeof slug !== 'string') {
@@ -60,17 +85,17 @@ export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params, 
   }
 
   try {
-    const plant = await getPlant(slug, preview)
+    const plant = await getPlant(slug, preview, locale)
     const categories = await getCategoryList()
     const otherEntries = await getPlantList({ limit: 5 })
 
     return {
       props: {
         plant,
-        categories, 
+        categories,
         otherEntries
       },
-      revalidate:  5 * 60
+      revalidate: 5 * 60
     }
   } catch (error) {
     return {
@@ -82,7 +107,7 @@ export const getStaticProps: GetStaticProps<PlantEntryProps> = async ({ params, 
 const PlantEntryPage = ({ plant, categories, otherEntries }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
 
-  if (router.isFallback) { 
+  if (router.isFallback) {
     return <Layout><Typography variant="h4">Loading...</Typography></Layout>
   }
 
