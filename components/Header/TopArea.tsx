@@ -23,6 +23,8 @@ export function TopArea() {
 export const LoginLogout = () => {
   const [session, loading] = useSession()
 
+  console.log('Session:', session)
+
   if (loading) {
     return null
     // return <Typography>Loading...</Typography>
