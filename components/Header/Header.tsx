@@ -7,10 +7,10 @@ import { PropsWithChildren } from 'react'
 import { Button } from '@material-ui/core'
 
 export function Header() {
-    const { t } = useTranslation(['common'])
+  const { t } = useTranslation(['common'])
 
   return (
-     <>
+    <>
       <PreviewModeBanner />
       <div className="px-8 py-3">
         <TopArea />
@@ -20,6 +20,7 @@ export function Header() {
           <div className='flex w-fit gap-2'>
             <NavLink href="/top-stories">{t('topStories')}</NavLink>
             <NavLink href="/search">{t('search')}</NavLink>
+            <NavLink href="/premium">{t('premium')}</NavLink>
           </div>
         </NavBar>
       </div>
