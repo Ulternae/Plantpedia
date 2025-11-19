@@ -114,16 +114,6 @@ function SearchContent() {
     </>
   )
 }
-
-// Add missing type definition
-type Plant = {
-  id: string
-  name: string
-  slug: string
-  image?: string
-  // Add other plant properties as needed
-}
-
 function useDebounce<T>(value: T, wait = 0) {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
