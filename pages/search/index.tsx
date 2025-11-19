@@ -114,6 +114,7 @@ function SearchContent() {
     </>
   )
 }
+
 function useDebounce<T>(value: T, wait = 0) {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
